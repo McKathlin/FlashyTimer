@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Title="Flashy Timer v0.1" Height="280" Width="640">
     <Grid>
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Center" TextWrapping="Wrap" Text="00:00" VerticalAlignment="Center" FontSize="72" FontFamily="Courier New" FontWeight="Bold" TextAlignment="Right"/>
 
     </Grid>
 </Window>
