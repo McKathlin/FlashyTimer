@@ -3,20 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.ComponentModel;
 using System.Windows.Media;
+using MVVM;
 
 namespace FlashyTimer
 {
-    public class TimerViewModel : INotifyPropertyChanged
+    public class TimerViewModel : ObservableObject
     {
-        #region Private Members
-
         private TimeSpan _timeRemaining;
         private Color _backgroundColor;
-
-        #endregion
-        #region Properties
 
         public TimeSpan TimeRemaining
         {
@@ -44,19 +39,6 @@ namespace FlashyTimer
             }
         }
 
-        #endregion
-        #region INotifyPropertyChanged Members
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        #endregion
-    }
+    } // end class TimerViewModel
 }
