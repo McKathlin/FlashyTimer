@@ -2,7 +2,7 @@
 
 namespace MVVM
 {
-    class DelegateCommand : ICommand
+    public class DelegateCommand : ICommand
     {
         private readonly Action _action;
 
