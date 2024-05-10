@@ -4,25 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using MVVM;
 
 namespace FlashyTimer
 {
-    public class Timer : INotifyPropertyChanged
+    public class Timer : ObservableObject
     {
-        #region Constants
-
         public const int DEFAULT_STARTING_MINUTES = 10;
         public const int DEFAULT_WARNING_MINUTES = 1;
+        public const int MILLISECONDS_PER_SECOND = 1000;
 
-        #endregion
-        #region Private Members
-
+        private System.Timers.Timer _timer =
+            new System.Timers.Timer(MILLISECONDS_PER_SECOND);
         private TimeSpan _startingTime;
         private TimeSpan _warningTime;
         private TimeSpan _timeRemaining;
-
-        #endregion
-        #region Properties
 
         public TimeSpan StartingTime
         {
@@ -62,19 +58,32 @@ namespace FlashyTimer
             }
         }
 
-        #endregion
-        #region INotifyPropertyChanged Members
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        
-        private void OnPropertyChanged(string propertyName)
+        public void Start(TimeSpan startTime)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
+            StartingTime = startTime;
+            TimeRemaining = startTime;
+            _timer.Start();
         }
 
-        #endregion
-    }
-}
+        public void Stop()
+        {
+            TimeRemaining = TimeSpan.Zero;
+            _timer.Stop();
+        }
+
+        public void Pause()
+        {
+            _timer.Stop();
+        }
+
+        public void Resume()
+        {
+            _timer.Start();
+        }
+
+        public void AddTime(TimeSpan timeToAdd)
+        {
+            TimeRemaining += timeToAdd;
+        }
+    } // class Timer
+} // namespace FlashyTimer
