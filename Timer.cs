@@ -133,18 +133,18 @@ namespace FlashyTimer
             return !IsRunning();
         }
 
-        public void Start(TimeSpan startTime)
+        public void Start()
         {
-            // TODO: Take FlashTimeSettings to customize warning and critical times
-            _timer.Start();
-            StartingTime = startTime;
             TimeRemaining = StartingTime;
+            _timer.Start();
+            UpdateStatus();
         }
 
         public void Stop()
         {
             _timer.Stop();
             TimeRemaining = TimeSpan.Zero;
+            UpdateStatus();
         }
 
         public void Pause()
@@ -162,6 +162,7 @@ namespace FlashyTimer
         public void AddTime(TimeSpan timeToAdd)
         {
             TimeRemaining += timeToAdd;
+            UpdateStatus();
         }
 
         private void UpdateStatus()

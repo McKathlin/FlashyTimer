@@ -37,8 +37,20 @@ namespace FlashyTimer
 
         public TimerViewModel()
         {
-            _startTenMinutesCommand = new TimeSetCommand(Start, 10);
-            _startFortyMinutesCommand = new TimeSetCommand(Start, 40);
+            TimeSettings TEN_MIN_SETTINGS = new TimeSettings(
+                TimeSpan.FromMinutes(10),
+                TimeSpan.FromMinutes(1),
+                TimeSpan.FromSeconds(20)
+            );
+
+            TimeSettings FORTY_MIN_SETTINGS = new TimeSettings(
+                TimeSpan.FromMinutes(40),
+                TimeSpan.FromMinutes(10),
+                TimeSpan.FromMinutes(1)
+            );
+
+            _startTenMinutesCommand = new TimeSetCommand(Start, TEN_MIN_SETTINGS);
+            _startFortyMinutesCommand = new TimeSetCommand(Start, FORTY_MIN_SETTINGS);
             _stopCommand = new DelegateCommand(Stop);
             _pauseResumeCommand = new DelegateCommand(PauseOrResume);
 
@@ -100,14 +112,10 @@ namespace FlashyTimer
 
         private void OnTimerPropertyChanged(object? source, PropertyChangedEventArgs e)
         {
-            if ("Status" == e.PropertyName)
+            if ("Status" == e.PropertyName || "TimeRemaining" == e.PropertyName)
             {
                 Text = GetUpdatedText();
                 Background = GetUpdatedBackground();
-            }
-            else if ("TimeRemaining" == e.PropertyName)
-            {
-                Text = GetUpdatedText();
             }
         }
 
@@ -146,9 +154,12 @@ namespace FlashyTimer
         #endregion
         #region methods used by commands
 
-        private void Start(int numMinutes)
+        private void Start(TimeSettings settings)
         {
-            _timer.Start(TimeSpan.FromMinutes(numMinutes));
+            _timer.StartingTime = settings.StartingTime;
+            _timer.WarningTime = settings.WarningTime;
+            _timer.CriticalTime = settings.CriticalTime;
+            _timer.Start();
         }
 
         private void Stop()

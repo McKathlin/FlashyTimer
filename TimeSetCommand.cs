@@ -4,15 +4,15 @@ namespace FlashyTimer
 {
     internal class TimeSetCommand : ICommand
     {
-        private readonly Action<int> _action;
-        private readonly int _minuteCount;
+        private readonly Action<TimeSettings> _action;
+        private readonly TimeSettings _timeSettings;
 
         public event EventHandler? CanExecuteChanged;
 
-        public TimeSetCommand(Action<int> action, int numMinutes)
+        public TimeSetCommand(Action<TimeSettings> action, TimeSettings settings)
         {
             _action = action;
-            _minuteCount = numMinutes;
+            _timeSettings = settings;
         }
 
         public bool CanExecute(object? parameter)
@@ -22,7 +22,7 @@ namespace FlashyTimer
 
         public void Execute(object? parameter)
         {
-            _action(_minuteCount);
+            _action(_timeSettings);
         }
     }
 }
