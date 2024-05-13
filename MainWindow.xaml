@@ -14,7 +14,8 @@
         <StackPanel Width="120" VerticalAlignment="Bottom" HorizontalAlignment="Left" >
             <Button x:Name="buttonStart40m" Command="{Binding StartFortyMinutesCommand, Source={StaticResource timerVM}}" Content="40m" FontSize="20" Margin="7" Background="#FF71FF55" BorderBrush="#FF3A7F2C" />
         </StackPanel>
-        <StackPanel Width="120" VerticalAlignment="Bottom" HorizontalAlignment="Right" >
+        <StackPanel Width="128" VerticalAlignment="Bottom" HorizontalAlignment="Right" >
+            <Button x:Name="buttonPauseResume" Command="{Binding PauseResumeCommand, Source={StaticResource timerVM}}" Content="Pause/Resume" Margin="7" FontSize="16"/>
             <Button x:Name="buttonStop" Command="{Binding StopCommand, Source={StaticResource timerVM}}" Content="Stop" FontSize="20" Margin="7" Background="#FFFF7878" BorderBrush="#FF803A3A" />
         </StackPanel>
     </Grid>

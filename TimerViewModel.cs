@@ -28,6 +28,7 @@ namespace FlashyTimer
 
         private ICommand _startFortyMinutesCommand;
         private ICommand _stopCommand;
+        private ICommand _pauseResumeCommand;
         private FlashyTimer.Timer _timer;
 
         #region init
@@ -36,6 +37,7 @@ namespace FlashyTimer
         {
             _startFortyMinutesCommand = new DelegateCommand(StartFortyMinutes);
             _stopCommand = new DelegateCommand(Stop);
+            _pauseResumeCommand = new DelegateCommand(PauseOrResume);
 
             _timer = new FlashyTimer.Timer();
             _timer.PropertyChanged += OnTimerPropertyChanged;
@@ -73,6 +75,11 @@ namespace FlashyTimer
         public ICommand StartFortyMinutesCommand
         {
             get { return _startFortyMinutesCommand; }
+        }
+
+        public ICommand PauseResumeCommand
+        {
+            get { return _pauseResumeCommand; }
         }
 
         public ICommand StopCommand
