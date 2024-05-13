@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Timers;
 using MVVM;
+using System.Net.NetworkInformation;
 
 namespace FlashyTimer
 {
@@ -19,11 +20,16 @@ namespace FlashyTimer
 
     public class Timer : ObservableObject
     {
-        public const int DEFAULT_STARTING_MINUTES = 10;
-        public const int DEFAULT_WARNING_MINUTES = 1;
         public const int MILLISECONDS_PER_SECOND = 1000;
 
         public static readonly TimeSpan ONE_SECOND = TimeSpan.FromSeconds(1);
+
+        public static readonly TimeSpan DEFAULT_STARTING_TIME = 
+            TimeSpan.FromMinutes(10);
+        public static readonly TimeSpan DEFAULT_WARNING_TIME = 
+            TimeSpan.FromMinutes(1);
+        public static readonly TimeSpan DEFAULT_CRITICAL_TIME = 
+            TimeSpan.FromSeconds(30);
 
         private System.Timers.Timer _timer;
         private TimeSpan _startingTime;
@@ -34,14 +40,14 @@ namespace FlashyTimer
 
         public Timer()
         {
-            _startingTime = TimeSpan.FromMinutes(DEFAULT_STARTING_MINUTES);
-            _timeRemaining = TimeSpan.FromMinutes(DEFAULT_STARTING_MINUTES);
-            _warningTime = TimeSpan.FromMinutes(DEFAULT_WARNING_MINUTES);
+            _startingTime = DEFAULT_STARTING_TIME;
+            _warningTime = DEFAULT_WARNING_TIME;
+            _criticalTime = DEFAULT_CRITICAL_TIME;
+            _timeRemaining = TimeSpan.Zero;
 
             _timer = new System.Timers.Timer(MILLISECONDS_PER_SECOND);
             _timer.Elapsed += OnSecondElapsed;
             _timer.AutoReset = true;
-            _timer.Enabled = true;
         }
 
         public TimeSpan StartingTime
@@ -93,9 +99,12 @@ namespace FlashyTimer
             }
             set
             {
-                _timeRemaining = value;
-                UpdateStatus();
-                OnPropertyChanged(nameof(TimeRemaining));
+                if (value != _timeRemaining)
+                {
+                    _timeRemaining = value;
+                    UpdateStatus();
+                    OnPropertyChanged(nameof(TimeRemaining));
+                }
             }
         }
 
@@ -106,15 +115,29 @@ namespace FlashyTimer
             }
             set
             {
-                _status = value;
-                OnPropertyChanged(nameof(Status));
+                if (value != _status)
+                {
+                    _status = value;
+                    OnPropertyChanged(nameof(Status));
+                }
             }
+        }
+
+        public bool IsRunning()
+        {
+            return _timer.Enabled;
+        }
+
+        public bool IsStopped()
+        {
+            return !IsRunning();
         }
 
         public void Start(TimeSpan startTime)
         {
+            // TODO: Take FlashTimeSettings to customize warning and critical times
             StartingTime = startTime;
-            TimeRemaining = startTime;
+            TimeRemaining = StartingTime;
             _timer.Start();
         }
 

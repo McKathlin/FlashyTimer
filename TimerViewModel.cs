@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,10 +26,23 @@ namespace FlashyTimer
         private string _text = TIME_STOPPED_TEXT;
         private Brush _background = DISABLED_BACKGROUND;
 
-        private ICommand _startFortyMinutesCommand = null;
-        private ICommand _stopCommand = null;
+        private ICommand _startFortyMinutesCommand;
+        private ICommand _stopCommand;
+        private FlashyTimer.Timer _timer;
 
-        private FlashyTimer.Timer _timer = new FlashyTimer.Timer();
+        #region init
+
+        public TimerViewModel()
+        {
+            _startFortyMinutesCommand = new DelegateCommand(StartFortyMinutes);
+            _stopCommand = new DelegateCommand(Stop);
+
+            _timer = new FlashyTimer.Timer();
+            _timer.PropertyChanged += OnTimerPropertyChanged;
+        }
+
+        #endregion
+        #region properties
 
         public string Text
         {
@@ -58,43 +72,88 @@ namespace FlashyTimer
 
         public ICommand StartFortyMinutesCommand
         {
-            get
-            {
-                if (null == _startFortyMinutesCommand)
-                {
-                    _startFortyMinutesCommand = new DelegateCommand(StartFortyMinutes);
-                }
-                return _startFortyMinutesCommand;
-            }
+            get { return _startFortyMinutesCommand; }
         }
 
         public ICommand StopCommand
         {
-            get
+            get { return _stopCommand; }
+        }
+
+        #endregion
+        #region event handling and updates
+
+        private void OnTimerPropertyChanged(object source, PropertyChangedEventArgs e)
+        {
+            if ("Status" == e.PropertyName)
             {
-                if (null == _stopCommand)
-                {
-                    _stopCommand = new DelegateCommand(Stop);
-                }
-                return _stopCommand;
+                Text = GetUpdatedText();
+                Background = GetUpdatedBackground();
+            }
+            else if ("TimeRemaining" == e.PropertyName)
+            {
+                Text = GetUpdatedText();
             }
         }
+
+        private string GetUpdatedText()
+        {
+            if (_timer.IsStopped() &&
+                _timer.TimeRemaining == TimeSpan.Zero)
+            {
+                return "--:--";
+            }
+            else
+            {
+                return _timer.TimeRemaining.ToString(@"mm\:ss");
+            }
+        }
+
+        private Brush GetUpdatedBackground()
+        {
+            switch(_timer.Status)
+            {
+                case TimerStatus.Normal:
+                    return NORMAL_BACKGROUND;
+                case TimerStatus.Warning:
+                    return WARNING_BACKGROUND;
+                case TimerStatus.Critical:
+                    return 0 == _timer.TimeRemaining.Seconds % 2 ?
+                        CRITICAL_BACKGROUND : WARNING_BACKGROUND;
+                case TimerStatus.Stopped:
+                    return DISABLED_BACKGROUND;
+                default:
+                    throw new NotImplementedException(
+                        "Unrecognized status: " + _timer.Status);
+            }
+        }
+
+        #endregion
+        #region methods used by commands
 
         private void StartFortyMinutes()
         {
             _timer.Start(TimeSpan.FromMinutes(40));
-            // TODO: Automate text and background values based on Timer state
-            Text = "40:00";
-            Background = NORMAL_BACKGROUND;
         }
 
         private void Stop()
         {
             _timer.Stop();
-            // TODO: Automate based on Timer state
-            Text = TIME_STOPPED_TEXT;
-            Background = DISABLED_BACKGROUND;
         }
+
+        private void PauseOrResume()
+        {
+            if (_timer.IsRunning())
+            {
+                _timer.Pause();
+            }
+            else
+            {
+                _timer.Resume();
+            }
+        }
+
+        #endregion
 
     } // end class TimerViewModel
 }
