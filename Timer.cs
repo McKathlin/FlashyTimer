@@ -136,9 +136,9 @@ namespace FlashyTimer
         public void Start(TimeSpan startTime)
         {
             // TODO: Take FlashTimeSettings to customize warning and critical times
+            _timer.Start();
             StartingTime = startTime;
             TimeRemaining = StartingTime;
-            _timer.Start();
         }
 
         public void Stop()

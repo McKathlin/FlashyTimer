@@ -26,7 +26,9 @@ namespace FlashyTimer
         private string _text = TIME_STOPPED_TEXT;
         private Brush _background = DISABLED_BACKGROUND;
 
+        private ICommand _startTenMinutesCommand;
         private ICommand _startFortyMinutesCommand;
+
         private ICommand _stopCommand;
         private ICommand _pauseResumeCommand;
         private FlashyTimer.Timer _timer;
@@ -35,7 +37,8 @@ namespace FlashyTimer
 
         public TimerViewModel()
         {
-            _startFortyMinutesCommand = new DelegateCommand(StartFortyMinutes);
+            _startTenMinutesCommand = new TimeSetCommand(Start, 10);
+            _startFortyMinutesCommand = new TimeSetCommand(Start, 40);
             _stopCommand = new DelegateCommand(Stop);
             _pauseResumeCommand = new DelegateCommand(PauseOrResume);
 
@@ -72,6 +75,11 @@ namespace FlashyTimer
             }
         }
 
+        public ICommand StartTenMinutesCommand
+        {
+            get { return _startTenMinutesCommand; }
+        }
+
         public ICommand StartFortyMinutesCommand
         {
             get { return _startFortyMinutesCommand; }
@@ -90,7 +98,7 @@ namespace FlashyTimer
         #endregion
         #region event handling and updates
 
-        private void OnTimerPropertyChanged(object source, PropertyChangedEventArgs e)
+        private void OnTimerPropertyChanged(object? source, PropertyChangedEventArgs e)
         {
             if ("Status" == e.PropertyName)
             {
@@ -138,9 +146,9 @@ namespace FlashyTimer
         #endregion
         #region methods used by commands
 
-        private void StartFortyMinutes()
+        private void Start(int numMinutes)
         {
-            _timer.Start(TimeSpan.FromMinutes(40));
+            _timer.Start(TimeSpan.FromMinutes(numMinutes));
         }
 
         private void Stop()

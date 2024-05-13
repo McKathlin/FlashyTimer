@@ -12,6 +12,7 @@
     <Grid Background="{Binding Background, Source={StaticResource timerVM}}">
         <TextBlock x:Name="textBlock" HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding Text, Source={StaticResource timerVM}}" VerticalAlignment="Center" FontSize="72" FontFamily="Courier New" FontWeight="Bold" TextAlignment="Right" Background="{Binding BackgroundColor, Source={StaticResource timerVM}}"/>
         <StackPanel Width="120" VerticalAlignment="Bottom" HorizontalAlignment="Left" >
+            <Button x:Name="buttonStart10m" Command="{Binding StartTenMinutesCommand, Source={StaticResource timerVM}}" Content="10m" FontSize="20" Margin="7" Background="#FF71FF55" BorderBrush="#FF3A7F2C" />
             <Button x:Name="buttonStart40m" Command="{Binding StartFortyMinutesCommand, Source={StaticResource timerVM}}" Content="40m" FontSize="20" Margin="7" Background="#FF71FF55" BorderBrush="#FF3A7F2C" />
         </StackPanel>
         <StackPanel Width="128" VerticalAlignment="Bottom" HorizontalAlignment="Right" >
