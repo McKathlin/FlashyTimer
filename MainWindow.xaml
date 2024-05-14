@@ -5,19 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FlashyTimer"
         mc:Ignorable="d"
-        Title="Flashy Timer v0.1" Height="280" Width="640">
+        Title="Flashy Timer v0.1" Height="240" Width="640">
     <Window.Resources>
-        <local:TimerViewModel x:Key="timerVM"/>
+        <local:TimerViewModel x:Key="TimerVM"/>
     </Window.Resources>
-    <Grid Background="{Binding Background, Source={StaticResource timerVM}}">
-        <TextBlock x:Name="textBlock" HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding Text, Source={StaticResource timerVM}}" VerticalAlignment="Center" FontSize="72" FontFamily="Courier New" FontWeight="Bold" TextAlignment="Right" Background="{Binding BackgroundColor, Source={StaticResource timerVM}}"/>
-        <StackPanel Width="120" VerticalAlignment="Bottom" HorizontalAlignment="Left" >
-            <Button x:Name="buttonStart10m" Command="{Binding StartTenMinutesCommand, Source={StaticResource timerVM}}" Content="10m" FontSize="20" Margin="7" Background="#FF71FF55" BorderBrush="#FF3A7F2C" />
-            <Button x:Name="buttonStart40m" Command="{Binding StartFortyMinutesCommand, Source={StaticResource timerVM}}" Content="40m" FontSize="20" Margin="7" Background="#FF71FF55" BorderBrush="#FF3A7F2C" />
-        </StackPanel>
+    <Grid Background="{Binding Background, Source={StaticResource TimerVM}}">
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding Text, Source={StaticResource TimerVM}}" VerticalAlignment="Center" FontSize="72" FontFamily="Courier New" FontWeight="Bold" TextAlignment="Right" Background="{Binding BackgroundColor, Source={StaticResource TimerVM}}"/>
+        <ListView ItemsSource="{Binding StartOptions, Source={StaticResource TimerVM}}" VerticalAlignment="Bottom" HorizontalAlignment="Left" BorderBrush="Transparent" Foreground="Transparent" Background="Transparent" >
+            <ListView.ItemTemplate>
+                <DataTemplate x:Name="StartButtonTemplate" DataType="local:TimeSettingsViewModel">
+                    <Button Content="{Binding Name}" Command="{Binding StartCommand}" Background="#FF56FF34" FontSize="20" Margin="3" Width="100" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
         <StackPanel Width="128" VerticalAlignment="Bottom" HorizontalAlignment="Right" >
-            <Button x:Name="buttonPauseResume" Command="{Binding PauseResumeCommand, Source={StaticResource timerVM}}" Content="Pause/Resume" Margin="7" FontSize="16"/>
-            <Button x:Name="buttonStop" Command="{Binding StopCommand, Source={StaticResource timerVM}}" Content="Stop" FontSize="20" Margin="7" Background="#FFFF7878" BorderBrush="#FF803A3A" />
+            <Button x:Name="buttonPauseResume" Command="{Binding PauseResumeCommand, Source={StaticResource TimerVM}}" Content="Pause/Resume" Margin="7" FontSize="16" />
+            <Button x:Name="buttonStop" Command="{Binding StopCommand, Source={StaticResource TimerVM}}" Content="Stop" FontSize="20" Margin="7" Background="#FFFF7878" BorderBrush="#FF803A3A" />
         </StackPanel>
     </Grid>
 </Window>

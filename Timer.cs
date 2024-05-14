@@ -188,7 +188,7 @@ namespace FlashyTimer
             }
         }
 
-        private void OnSecondElapsed(Object source, ElapsedEventArgs e)
+        private void OnSecondElapsed(Object? source, ElapsedEventArgs e)
         {
             TimeRemaining -= ONE_SECOND;
         }

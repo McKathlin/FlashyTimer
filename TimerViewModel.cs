@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -25,9 +26,8 @@ namespace FlashyTimer
 
         private string _text = TIME_STOPPED_TEXT;
         private Brush _background = DISABLED_BACKGROUND;
-
-        private ICommand _startTenMinutesCommand;
-        private ICommand _startFortyMinutesCommand;
+        private ObservableCollection<TimeSettingsViewModel> _startOptions =
+            new ObservableCollection<TimeSettingsViewModel>();
 
         private ICommand _stopCommand;
         private ICommand _pauseResumeCommand;
@@ -37,29 +37,46 @@ namespace FlashyTimer
 
         public TimerViewModel()
         {
-            TimeSettings TEN_MIN_SETTINGS = new TimeSettings(
-                TimeSpan.FromMinutes(10),
-                TimeSpan.FromMinutes(1),
-                TimeSpan.FromSeconds(20)
-            );
+            // TODO: Use an ObservableCollection of TimeSettingsViewModels.
+            // https://learn.microsoft.com/en-us/dotnet/desktop/wpf/data/how-to-create-and-bind-to-an-observablecollection?view=netframeworkdesktop-4.8
 
-            TimeSettings FORTY_MIN_SETTINGS = new TimeSettings(
-                TimeSpan.FromMinutes(40),
-                TimeSpan.FromMinutes(10),
-                TimeSpan.FromMinutes(1)
-            );
-
-            _startTenMinutesCommand = new TimeSetCommand(Start, TEN_MIN_SETTINGS);
-            _startFortyMinutesCommand = new TimeSetCommand(Start, FORTY_MIN_SETTINGS);
             _stopCommand = new DelegateCommand(Stop);
             _pauseResumeCommand = new DelegateCommand(PauseOrResume);
 
             _timer = new FlashyTimer.Timer();
             _timer.PropertyChanged += OnTimerPropertyChanged;
+
+            PopulateStartOptions();
+        }
+
+        private void PopulateStartOptions()
+        {
+            _startOptions.Add(MakeStartOption(1, 0.5, 0.1));
+            _startOptions.Add(MakeStartOption(10, 1, 0.333));
+            _startOptions.Add(MakeStartOption(40, 10, 1));
+            _startOptions.Add(MakeStartOption(45, 10, 1));
+        }
+
+        private TimeSettingsViewModel MakeStartOption(double startMins, double warnMins, double critMins)
+        {
+            return new TimeSettingsViewModel(
+                _timer,
+                TimeSpan.FromMinutes(startMins),
+                TimeSpan.FromMinutes(warnMins),
+                TimeSpan.FromMinutes(critMins)
+            );
         }
 
         #endregion
         #region properties
+
+        public ObservableCollection<TimeSettingsViewModel> StartOptions
+        {
+            get
+            {
+                return _startOptions;
+            }
+        }
 
         public string Text
         {
@@ -86,17 +103,6 @@ namespace FlashyTimer
                 OnPropertyChanged(nameof(Background));
             }
         }
-
-        public ICommand StartTenMinutesCommand
-        {
-            get { return _startTenMinutesCommand; }
-        }
-
-        public ICommand StartFortyMinutesCommand
-        {
-            get { return _startFortyMinutesCommand; }
-        }
-
         public ICommand PauseResumeCommand
         {
             get { return _pauseResumeCommand; }
@@ -153,14 +159,6 @@ namespace FlashyTimer
 
         #endregion
         #region methods used by commands
-
-        private void Start(TimeSettings settings)
-        {
-            _timer.StartingTime = settings.StartingTime;
-            _timer.WarningTime = settings.WarningTime;
-            _timer.CriticalTime = settings.CriticalTime;
-            _timer.Start();
-        }
 
         private void Stop()
         {
