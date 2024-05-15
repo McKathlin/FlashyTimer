@@ -4,10 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FlashyTimer"
+        xmlns:vm="clr-namespace:FlashyTimer.ViewModels"
         mc:Ignorable="d"
         Title="Flashy Timer v0.1" Height="240" Width="640">
     <Window.Resources>
-        <local:TimerViewModel x:Key="TimerVM"/>
+        <vm:TimerViewModel x:Key="TimerVM"/>
     </Window.Resources>
     <Grid Background="{Binding Background, Source={StaticResource TimerVM}}">
         <TextBlock x:Name="textBlock" HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding Text, Source={StaticResource TimerVM}}" VerticalAlignment="Center" FontSize="72" FontFamily="Courier New" FontWeight="Bold" TextAlignment="Right" Background="{Binding BackgroundColor, Source={StaticResource TimerVM}}"/>

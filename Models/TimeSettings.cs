@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlashyTimer
+namespace FlashyTimer.Models
 {
     public class TimeSettings
     {
@@ -20,7 +20,7 @@ namespace FlashyTimer
         }
 
         public TimeSpan StartingTime
-        { 
+        {
             get { return _startingTime; }
         }
 

@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Windows.Input;
+using FlashyTimer.Models;
 using MVVM;
 
-namespace FlashyTimer
+namespace FlashyTimer.ViewModels
 {
     public class TimeSettingsViewModel : ObservableObject
     {
-        private FlashyTimer.Timer _flashyTimer;
+        private CountdownTimer _flashyTimer;
         private TimeSettings _timeSettings;
         private ICommand _startCommand;
 
-        public TimeSettingsViewModel(FlashyTimer.Timer fTimer,
-            TimeSpan tStart, TimeSpan tWarn, TimeSpan tCrit) 
+        public TimeSettingsViewModel(CountdownTimer fTimer,
+            TimeSpan tStart, TimeSpan tWarn, TimeSpan tCrit)
         {
             _flashyTimer = fTimer;
             _timeSettings = new TimeSettings(tStart, tWarn, tCrit);

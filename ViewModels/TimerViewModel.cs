@@ -7,9 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Media;
+using FlashyTimer.Models;
 using MVVM;
 
-namespace FlashyTimer
+namespace FlashyTimer.ViewModels
 {
     public class TimerViewModel : ObservableObject
     {
@@ -31,7 +32,7 @@ namespace FlashyTimer
 
         private ICommand _stopCommand;
         private ICommand _pauseResumeCommand;
-        private FlashyTimer.Timer _timer;
+        private CountdownTimer _timer;
 
         #region init
 
@@ -43,7 +44,7 @@ namespace FlashyTimer
             _stopCommand = new DelegateCommand(Stop);
             _pauseResumeCommand = new DelegateCommand(PauseOrResume);
 
-            _timer = new FlashyTimer.Timer();
+            _timer = new CountdownTimer();
             _timer.PropertyChanged += OnTimerPropertyChanged;
 
             PopulateStartOptions();
@@ -140,7 +141,7 @@ namespace FlashyTimer
 
         private Brush GetUpdatedBackground()
         {
-            switch(_timer.Status)
+            switch (_timer.Status)
             {
                 case TimerStatus.Normal:
                     return NORMAL_BACKGROUND;

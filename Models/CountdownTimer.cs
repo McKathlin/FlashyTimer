@@ -8,7 +8,7 @@ using System.Timers;
 using MVVM;
 using System.Net.NetworkInformation;
 
-namespace FlashyTimer
+namespace FlashyTimer.Models
 {
     public enum TimerStatus
     {
@@ -18,17 +18,17 @@ namespace FlashyTimer
         Critical
     }
 
-    public class Timer : ObservableObject
+    public class CountdownTimer : ObservableObject
     {
         public const int MILLISECONDS_PER_SECOND = 1000;
 
         public static readonly TimeSpan ONE_SECOND = TimeSpan.FromSeconds(1);
 
-        public static readonly TimeSpan DEFAULT_STARTING_TIME = 
+        public static readonly TimeSpan DEFAULT_STARTING_TIME =
             TimeSpan.FromMinutes(10);
-        public static readonly TimeSpan DEFAULT_WARNING_TIME = 
+        public static readonly TimeSpan DEFAULT_WARNING_TIME =
             TimeSpan.FromMinutes(1);
-        public static readonly TimeSpan DEFAULT_CRITICAL_TIME = 
+        public static readonly TimeSpan DEFAULT_CRITICAL_TIME =
             TimeSpan.FromSeconds(30);
 
         private System.Timers.Timer _timer;
@@ -38,7 +38,7 @@ namespace FlashyTimer
         private TimeSpan _timeRemaining;
         private TimerStatus _status;
 
-        public Timer()
+        public CountdownTimer()
         {
             _startingTime = DEFAULT_STARTING_TIME;
             _warningTime = DEFAULT_WARNING_TIME;
@@ -54,11 +54,11 @@ namespace FlashyTimer
         {
             get
             {
-                return this._startingTime;
+                return _startingTime;
             }
             set
             {
-                this._startingTime = value;
+                _startingTime = value;
                 UpdateStatus();
                 OnPropertyChanged(nameof(StartingTime));
             }
@@ -68,11 +68,11 @@ namespace FlashyTimer
         {
             get
             {
-                return this._warningTime;
+                return _warningTime;
             }
             set
             {
-                this._warningTime = value;
+                _warningTime = value;
                 UpdateStatus();
                 OnPropertyChanged(nameof(WarningTime));
             }
@@ -82,17 +82,18 @@ namespace FlashyTimer
         {
             get
             {
-                return this._criticalTime;
+                return _criticalTime;
             }
             set
             {
-                this._criticalTime = value;
+                _criticalTime = value;
                 UpdateStatus();
                 OnPropertyChanged(nameof(CriticalTime));
             }
         }
 
-        public TimeSpan TimeRemaining {
+        public TimeSpan TimeRemaining
+        {
             get
             {
                 return _timeRemaining;
@@ -110,7 +111,8 @@ namespace FlashyTimer
 
         public TimerStatus Status
         {
-            get {
+            get
+            {
                 return _status;
             }
             set
@@ -188,7 +190,7 @@ namespace FlashyTimer
             }
         }
 
-        private void OnSecondElapsed(Object? source, ElapsedEventArgs e)
+        private void OnSecondElapsed(object? source, ElapsedEventArgs e)
         {
             TimeRemaining -= ONE_SECOND;
         }
