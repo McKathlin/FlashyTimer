@@ -15,6 +15,7 @@ namespace FlashyTimer.ViewModels
     public class TimerViewModel : ObservableObject
     {
         public const string TIME_STOPPED_TEXT = "--:--";
+        const string DEFAULT_START_OPTIONS_PATH = "StartOptions.json";
 
         public static readonly Brush NORMAL_BACKGROUND =
             new SolidColorBrush(Colors.White);
@@ -27,12 +28,11 @@ namespace FlashyTimer.ViewModels
 
         private string _text = TIME_STOPPED_TEXT;
         private Brush _background = DISABLED_BACKGROUND;
-        private ObservableCollection<TimeSettingsViewModel> _startOptions =
-            new ObservableCollection<TimeSettingsViewModel>();
 
         private ICommand _stopCommand;
         private ICommand _pauseResumeCommand;
         private CountdownTimer _timer;
+        private StartOptionCollection _startOptions;
 
         #region init
 
@@ -47,31 +47,14 @@ namespace FlashyTimer.ViewModels
             _timer = new CountdownTimer();
             _timer.PropertyChanged += OnTimerPropertyChanged;
 
-            PopulateStartOptions();
-        }
-
-        private void PopulateStartOptions()
-        {
-            _startOptions.Add(MakeStartOption(1, 0.5, 0.1));
-            _startOptions.Add(MakeStartOption(10, 1, 0.333));
-            _startOptions.Add(MakeStartOption(40, 10, 1));
-            _startOptions.Add(MakeStartOption(45, 10, 1));
-        }
-
-        private TimeSettingsViewModel MakeStartOption(double startMins, double warnMins, double critMins)
-        {
-            return new TimeSettingsViewModel(
-                _timer,
-                TimeSpan.FromMinutes(startMins),
-                TimeSpan.FromMinutes(warnMins),
-                TimeSpan.FromMinutes(critMins)
-            );
+            _startOptions = new StartOptionCollection(
+                _timer, DEFAULT_START_OPTIONS_PATH);
         }
 
         #endregion
         #region properties
 
-        public ObservableCollection<TimeSettingsViewModel> StartOptions
+        public StartOptionCollection StartOptions
         {
             get
             {
