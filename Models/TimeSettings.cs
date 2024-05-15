@@ -6,32 +6,10 @@ using System.Threading.Tasks;
 
 namespace FlashyTimer.Models
 {
-    public class TimeSettings
+    public struct TimeSettings
     {
-        private readonly TimeSpan _startingTime;
-        private readonly TimeSpan _warningTime;
-        private readonly TimeSpan _criticalTime;
-
-        public TimeSettings(TimeSpan start, TimeSpan warn, TimeSpan crit)
-        {
-            _startingTime = start;
-            _warningTime = warn;
-            _criticalTime = crit;
-        }
-
-        public TimeSpan StartingTime
-        {
-            get { return _startingTime; }
-        }
-
-        public TimeSpan WarningTime
-        {
-            get { return _warningTime; }
-        }
-
-        public TimeSpan CriticalTime
-        {
-            get { return _criticalTime; }
-        }
+        public TimeSpan StartingTime { get; set; }
+        public TimeSpan WarningTime { get; set; }
+        public TimeSpan CriticalTime { get; set; }
     }
 }

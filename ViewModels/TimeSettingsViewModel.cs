@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
-using FlashyTimer.Models;
 using MVVM;
+using FlashyTimer.Models;
 
 namespace FlashyTimer.ViewModels
 {
@@ -15,7 +15,19 @@ namespace FlashyTimer.ViewModels
             TimeSpan tStart, TimeSpan tWarn, TimeSpan tCrit)
         {
             _flashyTimer = fTimer;
-            _timeSettings = new TimeSettings(tStart, tWarn, tCrit);
+            _timeSettings = new TimeSettings
+            {
+                StartingTime = tStart,
+                WarningTime = tWarn,
+                CriticalTime = tCrit
+            };
+            _startCommand = new DelegateCommand(Start);
+        }
+
+        public TimeSettingsViewModel(CountdownTimer fTimer, TimeSettings settings)
+        {
+            _flashyTimer = fTimer;
+            _timeSettings = settings;
             _startCommand = new DelegateCommand(Start);
         }
 
@@ -23,56 +35,21 @@ namespace FlashyTimer.ViewModels
         {
             get
             {
-                return StartingTime.Minutes.ToString() + "m";
+                return _timeSettings.StartingTime.Minutes.ToString() + "m";
             }
         }
 
-        public TimeSpan StartingTime
+        public TimeSettings Settings
         {
             get
             {
-                return _timeSettings.StartingTime;
+                return _timeSettings;
             }
             set
             {
-                TimeSpan start = value;
-                TimeSpan warn = _timeSettings.WarningTime;
-                TimeSpan crit = _timeSettings.CriticalTime;
-                _timeSettings = new TimeSettings(start, warn, crit);
-                OnPropertyChanged(nameof(StartingTime));
+                _timeSettings = value;
+                OnPropertyChanged(nameof(Settings));
                 OnPropertyChanged(nameof(Name));
-            }
-        }
-
-        public TimeSpan WarningTime
-        {
-            get
-            {
-                return _timeSettings.WarningTime;
-            }
-            set
-            {
-                TimeSpan start = _timeSettings.StartingTime;
-                TimeSpan warn = value;
-                TimeSpan crit = _timeSettings.CriticalTime;
-                _timeSettings = new TimeSettings(start, warn, crit);
-                OnPropertyChanged(nameof(WarningTime));
-            }
-        }
-
-        public TimeSpan CriticalTime
-        {
-            get
-            {
-                return _timeSettings.CriticalTime;
-            }
-            set
-            {
-                TimeSpan start = _timeSettings.StartingTime;
-                TimeSpan warn = _timeSettings.WarningTime;
-                TimeSpan crit = value;
-                _timeSettings = new TimeSettings(start, warn, crit);
-                OnPropertyChanged(nameof(CriticalTime));
             }
         }
 
