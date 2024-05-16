@@ -167,6 +167,12 @@ namespace FlashyTimer.Models
             UpdateStatus();
         }
 
+        public void SubtractTime(TimeSpan timeToSubtract)
+        {
+            TimeRemaining -= timeToSubtract;
+            UpdateStatus();
+        }
+
         private void UpdateStatus()
         {
             if (_timer.Enabled)
