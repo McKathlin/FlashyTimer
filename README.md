@@ -3,16 +3,25 @@
 This silent, highly visible timer gets your attention by flashing different colors.
 If you're deaf, have ADHD, or need to watch your time closely for work, this timer might be useful for you.
 
-## The Basics: Start, Stop, Pause, and Unpause
+## The Basics
 
 Pick a start button on the left to start a timer with the number of minutes indicated.
 Time will start counting down. The color will change to yellow when time is low,
 and will start flashing red and yellow when time is almost up.
 
-The Stop and Pause/Resume buttons are on the right.
+The Stop and Pause/Resume buttons are on the bottom right.
 * The Stop button stops the timer and clears the time.
 * When the timer is running, the Pause/Resume button pauses the timer.
 * When the timer is paused, the Pause/Resume button makes the timer start running from its current time left.
+
+## Adjust Your Time Remaininmg
+
+The buttons on the top right let you do fine-tuned adjustments on the time remaining.
+Let's say you started the timer ten seconds later or earlier than you wanted to.
+Or you need a time point five minutes shorter or longer than the Start button you clicked.
+The time adjust buttons let you fix that.
+* To "rewind" or add time, click one of the back arrow `<` buttons.
+* To "fast-forward" or subtract time, click one of the forward arrow `>` buttons.
 
 ## Advanced: Customize the Start Buttons
 
