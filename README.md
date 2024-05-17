@@ -20,8 +20,8 @@ The buttons on the top right let you do fine-tuned adjustments on the time remai
 Let's say you started the timer ten seconds later or earlier than you wanted to.
 Or you need a time point five minutes shorter or longer than the Start button you clicked.
 The time adjust buttons let you fix that.
-* To "rewind" or add time, click one of the back arrow `<` buttons.
-* To "fast-forward" or subtract time, click one of the forward arrow `>` buttons.
+* To "rewind" or add time, click one of the back arrow `<<` buttons.
+* To "fast-forward" or subtract time, click one of the forward arrow `>>` buttons.
 
 ## Advanced: Customize the Start Buttons
 
