@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:FlashyTimer"
         xmlns:vm="clr-namespace:FlashyTimer.ViewModels"
         mc:Ignorable="d"
-        Title="Flashy Timer v0.1" Height="240" Width="640">
+        Title="Flashy Timer v0.2" Height="240" Width="640">
     <Window.Resources>
         <vm:TimerViewModel x:Key="TimerVM"/>
     </Window.Resources>
