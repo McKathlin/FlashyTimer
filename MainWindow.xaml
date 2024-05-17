@@ -14,8 +14,18 @@
         <TextBlock x:Name="textBlock" HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding Text, Source={StaticResource TimerVM}}" VerticalAlignment="Center" FontSize="72" FontFamily="Courier New" FontWeight="Bold" TextAlignment="Right" Background="{Binding BackgroundColor, Source={StaticResource TimerVM}}"/>
         <ListView ItemsSource="{Binding StartOptions, Source={StaticResource TimerVM}}" VerticalAlignment="Bottom" HorizontalAlignment="Left" BorderBrush="Transparent" Foreground="Transparent" Background="Transparent" >
             <ListView.ItemTemplate>
-                <DataTemplate x:Name="StartButtonTemplate" DataType="local:TimeSettingsViewModel">
+                <DataTemplate x:Name="StartButtonTemplate" DataType="vm:TimeSettingsViewModel">
                     <Button Content="{Binding Name}" Command="{Binding StartCommand}" Background="#FF56FF34" FontSize="20" Margin="3" Width="100" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <ListView ItemsSource="{Binding TimeAdjusters, Source={StaticResource TimerVM}}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="128" Margin="0,0,0,89" BorderBrush="Transparent" Foreground="Transparent" Background="Transparent">
+            <ListView.ItemTemplate>
+                <DataTemplate x:Name="TimeAdjusterTemplate" DataType="vm:TimeAdjusterViewModel">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Content="{Binding AddLabel}" Command="{Binding AddCommand}" Width="54" FontSize="15" Margin="0,2,2,2" />
+                        <Button Content="{Binding SubtractLabel}" Command="{Binding SubtractCommand}" Width="54" FontSize="15" Margin="2,2,0,2" />
+                    </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

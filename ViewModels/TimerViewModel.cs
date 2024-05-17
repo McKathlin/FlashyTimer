@@ -33,6 +33,7 @@ namespace FlashyTimer.ViewModels
         private ICommand _pauseResumeCommand;
         private CountdownTimer _timer;
         private StartOptionCollection _startOptions;
+        private TimeAdjusterCollection _timeAdjusters;
 
         #region init
 
@@ -49,6 +50,7 @@ namespace FlashyTimer.ViewModels
 
             _startOptions = new StartOptionCollection(
                 _timer, DEFAULT_START_OPTIONS_PATH);
+            _timeAdjusters = new TimeAdjusterCollection(_timer);
         }
 
         #endregion
@@ -59,6 +61,14 @@ namespace FlashyTimer.ViewModels
             get
             {
                 return _startOptions;
+            }
+        }
+
+        public TimeAdjusterCollection TimeAdjusters
+        {
+            get
+            {
+                return _timeAdjusters;
             }
         }
 

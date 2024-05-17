@@ -29,6 +29,7 @@ namespace FlashyTimer.ViewModels
 
         public void LoadDefaults()
         {
+            Clear();
             Add(MakeStartOption(5, 1, 0.25));
             Add(MakeStartOption(10, 1, 0.25));
             Add(MakeStartOption(30, 10, 1));
@@ -37,7 +38,7 @@ namespace FlashyTimer.ViewModels
 
         public bool LoadFromFile(string path)
         {
-            this.Clear();
+            Clear();
             try
             {
                 _latestDataPath = path;

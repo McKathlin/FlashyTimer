@@ -164,13 +164,11 @@ namespace FlashyTimer.Models
         public void AddTime(TimeSpan timeToAdd)
         {
             TimeRemaining += timeToAdd;
-            UpdateStatus();
         }
 
         public void SubtractTime(TimeSpan timeToSubtract)
         {
             TimeRemaining -= timeToSubtract;
-            UpdateStatus();
         }
 
         private void UpdateStatus()
